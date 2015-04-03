@@ -9,12 +9,15 @@ var express = require("express"),
 	app, server;
 
 app = express();
-
+var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 server = http.createServer(app);
 
 app.configure(function() {
 	// read the port from the environment, else set to 3000
-	app.set("port", process.env.PORT || 3000);
+
+
+	//app.set("port", port);
 	app.set("views", __dirname + "/views");
 	app.engine('html', require('ejs').renderFile);
 	app.use(express.bodyParser());
@@ -40,6 +43,6 @@ app.configure("development", function() {
 	app.use(express.errorHandler());
 });
 
-server.listen(app.get("port"), function() {
+server.listen(port, ipaddress, function() {
 	console.log("Express server listening on port " + app.get("port"));
 });
